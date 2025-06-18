@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Криптосистема с рекурсией</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+        }
+        #encryptBtn {
+            background-color: #4CAF50;
+        }
+        #encryptBtn:hover {
+            background-color: #45a049;
+        }
+        #decryptBtn {
+            background-color: #2196F3;
+        }
+        #decryptBtn:hover {
+            background-color: #0b7dda;
+        }
+        .level-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .level-control input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border-left: 4px solid #4CAF50;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 10px;
+        }
+        .action-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Криптосистема с рекурсивным шифрованием</h1>
+        
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST">
+            <label for="text">Введите текст:</label>
+            <textarea id="text" name="text" required>{% if original_text %}{{ original_text }}{% endif %}</textarea>
+            
+            <div class="controls">
+                <div class="level-control">
+                    <label for="level">Уровень:</label>
+                    <input type="number" id="level" name="level" min="1" max="10" 
+                           value="{% if level %}{{ level }}{% else %}1{% endif %}">
+                </div>
+                
+                <div class="buttons">
+                    <button type="submit" name="action" value="encrypt" id="encryptBtn">Зашифровать</button>
+                    <button type="submit" name="action" value="decrypt" id="decryptBtn">Дешифровать</button>
+                </div>
+            </div>
+        </form>
+        
+        {% if result_text %}
+            <div class="action-label">
+                {% if action == 'encrypt' %}
+                    Результат шифрования (уровень {{ level }}):
+                {% else %}
+                    Результат дешифрования (уровень {{ level }}):
+                {% endif %}
+            </div>
+            <div class="result">{{ result_text }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
